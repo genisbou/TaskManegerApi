@@ -18,6 +18,7 @@ class Task extends Migration
             'user_id' => [
                 'type' => 'INT',
                 'unsigned' => true, // Only positive values
+                'null' => false,
             ],
             'title' => [
                 'type' => 'VARCHAR',
@@ -30,7 +31,6 @@ class Task extends Migration
                 'type' => 'ENUM',
                 'constraint' => ['pending', 'in_progress', 'completed'],
                 'default' => 'pending',
-                'null' => false,
             ],
             'date_limit' => [
                 'type' => 'DATETIME',
