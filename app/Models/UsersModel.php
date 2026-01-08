@@ -48,4 +48,10 @@ class UsersModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function add($username, $email, $password)
+    {
+        return $this->insert(["username" => $username, "email" => $email, "password" => $password]);
+
+    }
 }
