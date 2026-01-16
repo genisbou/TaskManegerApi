@@ -54,4 +54,9 @@ class UsersModel extends Model
         return $this->insert(["username" => $username, "email" => $email, "password" => $password]);
 
     }
+
+    public function getByUsername($username)
+    {
+        return $this->where('username', $username)->first();
+    }
 }

@@ -47,4 +47,63 @@ class AuthController extends BaseController
             ]);
 
     }
+
+    public function login()
+    {
+        helper(['from', 'jwt_helper']);
+        // Generar token al Login -> Uusari és qui diu ser Exemple : entrada d'un cinema | Login = comprar entrada
+
+        $rules = [
+            'username' => 'required',
+            'password' => 'required',
+        ];
+
+        if (!$this->validate($rules)) {
+            return $this->response->setStatusCode(400 , 'Bad Request')
+                ->setJSON([
+                    'status'   => 400,
+                    'messages' => 'Validation Error',
+                ]);      
+        }
+        $model = new UsersModel();
+        $usrname = $this->request->getPost('username');
+        $modelData = $model->getByUsername($usrname);
+
+        // Usuari no existeix
+        if (!$modelData) {
+            return $this->response->setStatusCode(401 , 'Unauthorized')
+                ->setJSON([
+                    'status'   => 401,
+                    'messages' => 'Invalid Credentials',
+                ]); 
+    }
+    // Usuari existeix, password incorrecte
+    // font : https://www.phptutorial.net/php-tutorial/php-password_verify/
+ 
+        /*
+        $user = find_user_by_username($username);
+
+        if ($user && password_verify($password, $user['password'])) {
+            // log the user in
+            session_regenerate_id();
+            $_SESSION['user_id'] = $user['id'];
+        } else {
+            echo 'Invalid username or password';
+        }
+        */
+
+        $password = $this->request->getPost('password');
+        if (!password_verify($password, $modelData['password'])) {
+            return $this->response->setStatusCode(401 , 'Unauthorized')
+                ->setJSON([
+                    'status'   => 401,
+                    'messages' => 'Invalid Credentials',
+                ]);
+        
+        // Credencials correctes, generar token
+
+        
+        
+}
+}
 }
