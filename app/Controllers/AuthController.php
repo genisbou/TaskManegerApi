@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\UsersModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
+
 // No CRUD no Controller REST
 
 class AuthController extends BaseController
@@ -49,8 +50,11 @@ class AuthController extends BaseController
     }
 
     public function login()
+    
     {
-        helper(['from', 'jwt_helper']);
+
+     //   die("OK");
+        helper(['from', 'jwt']);
         // Generar token al Login -> Uusari és qui diu ser Exemple : entrada d'un cinema | Login = comprar entrada
 
         $rules = [
@@ -100,10 +104,30 @@ class AuthController extends BaseController
                     'messages' => 'Invalid Credentials',
                 ]);
         
-        // Credencials correctes, generar token
+        }
 
+          // Credencials correctes, generar token
+      $cfgToken = config('APIJwt');
+
+        $data = [
+            'id'       => $modelData['id'],
+            'username' => $modelData['username'],
+            'email'    => $modelData['email'],
+        ];
         
-        
-}
+     
+          $token = newTokenJWT($cfgToken,  [
+            'id'       => $modelData['id'],
+            'username' => $modelData['username'],
+            'email'    => $modelData['email'],
+          ]);
+       
+    
+        return $this->response->setStatusCode(200 , 'OK')
+            ->setJSON([
+                'status'   => 200,
+                'messages' => 'Login Successful',
+                'token'    => $token,
+            ]);
 }
 }

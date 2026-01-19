@@ -3,6 +3,7 @@
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
+
 /**
  * getToken
  * This function returns data from request JWT
@@ -15,6 +16,7 @@ use Firebase\JWT\Key;
  * @param  mixed $request   Request object
  * @return object ['encoded' => string, "data" => object]
  */
+
 if (!function_exists('getToken')) {
 
     function getToken($cfgAPI, $request)
