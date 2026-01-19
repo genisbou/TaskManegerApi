@@ -107,22 +107,18 @@ class AuthController extends BaseController
         }
 
           // Credencials correctes, generar token
-      $cfgToken = config('APIJwt');
-
-        $data = [
-            'id'       => $modelData['id'],
-            'username' => $modelData['username'],
-            'email'    => $modelData['email'],
-        ];
-        
-     
-          $token = newTokenJWT($cfgToken,  [
-            'id'       => $modelData['id'],
-            'username' => $modelData['username'],
-            'email'    => $modelData['email'],
-          ]);
-       
+    $cfgToken = new \Config\APIJwt();   
+    $policy = $cfgToken->config();
     
+    $data = [
+        'id'       => $modelData['id'],
+        'username' => $modelData['username'],
+        'email'    => $modelData['email'],
+    ];
+
+          $token = newTokenJWT($policy, $data
+          );
+       
         return $this->response->setStatusCode(200 , 'OK')
             ->setJSON([
                 'status'   => 200,
